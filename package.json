@@ -1,0 +1,27 @@
+{
+  "name": "@combinejs/core",
+  "version": "0.1.1",
+  "description": "Проект в активной разработке базовых принципов",
+  "main": "index.js",
+  "dependencies": {
+    "case": "^1.4.1",
+    "pretty": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/combinejs/combine.git"
+  },
+  "author": "spat.ne.hochu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/combinejs/combine/issues"
+  },
+  "homepage": "https://github.com/combinejs/combine#readme",
+  "keywords": [
+    "combinejs"
+  ]
+}

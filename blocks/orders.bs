@@ -1,0 +1,9 @@
+Orders
+  rule.mix = 'TableBeauty'
+
+    caption
+      rule.mix = 'OrdersCaption'
+
+    order
+      rule.each = 'order of orders'
+      rule.mix  = 'Order'

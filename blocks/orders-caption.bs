@@ -1,0 +1,9 @@
+OrdersCaption
+    id
+      rule.output = '"номер"'
+
+    title
+      rule.output = '"название"'
+
+    summary
+      rule.output = '"сумма"'

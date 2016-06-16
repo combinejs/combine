@@ -1,0 +1,9 @@
+Order
+    id
+      rule.output = 'order.id'
+
+    title
+      rule.output = 'order.title'
+
+    summary
+      rule.output = 'order.summary'

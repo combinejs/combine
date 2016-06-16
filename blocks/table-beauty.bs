@@ -1,0 +1,22 @@
+TableBeauty
+  html.tag    = 'table'
+  css.display = 'table'
+
+    row
+      rule.match  = '*'
+      html.tag    = 'tr'
+      css.display = 'table-row'
+
+        cell
+          rule.match  = '*'
+          html.tag    = 'td'
+          css.display = 'table-cell'
+
+    head
+      rule.match      = '0'
+      css.background  = '#eee'
+      css.fontWeight  = '900'
+
+        headCell
+          rule.match  = '*'
+          html.tag    = 'th'
