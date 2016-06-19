@@ -1,128 +1,132 @@
-# bemSlim
-Проект в активной разработке базовых принципов, это ещё даже не alpha.
+
+──────────████──████──█───██─████───███──█──█──███─────────██──███
+──────────█──█──█──█──██─███─█──██───█───██─█──█────────────█──█
+███──███──█─────█──█──█─█─██─████────█───█─██──███──███─────█──███──███──███
+──────────█──█──█──█──█───██─█──██───█───█──█──█─────────█──█────█
+──────────████──████──█───██─████───███──█──█──███───────████──███
 
 Это повторно используемые конпоненты разметки и стилей основанные на БЭМ подходе,
-компилируемые под фронт и бэк, в целом с некоторыми ограничениями
-возможно компилить одни и теже структуры в динамические вьюхи под любой язык:
-php, ejs, erb, angular, react.
+компилируемые под фронт или бэк, можно компилить одни и теже структуры в динамические вьюхи в идеале под любой стёк.
+(от языка нужна только поддержка if и циклов, c angular'ом конечно всё будет посложнее)
+В планах сделать под php, ejs, erb, angular, react, nativejs.
 
-А ещё это модульный css с наследованием и примесями с возможностью компиляции в любую методологию.
+А ещё это будет модульный css с наследованием и примесями с возможностью компиляции в любой выходной формат.
 
 ### Roadmap:
-1. Формат шаблонов будет меняться в сторону минимализма, но не во вред читаемости.
-2. Возможно будет два формата один строгий, второй похож на coffee или rubySlim.
-3. Дописать директиру mixin для смешивания древовидных структур что бы работала в сложных случаях.
-4. Написать какие-то базовые вещи что бы можно было попробовать на php, ruby, nodejs, angular, react.
-5. После того как всё будет более менее работать отрефакторить и написать тесты на стабильные компоненты.
+1.  Сделать стабильный формат исходных блоков.
+1a. Формат по типу json
+1б. Формат основанный на отступах
 
-### На сегодня:
-1. Работает самый простой кейс, в котором выводится таблица заказов клиента
-2. Можно смешивать древовидные структуры
+2.  Разбить все на компоненты, написать базовые директивы, запустить второй dev-релиз.
+3.  Попробовать компиляцию в php, ruby, nodejs, angular, react.
+4.  Сделать несколько разных выходных форматов css (БЭМ и ещё парочка)
+
+### На сегодня работает:
+0. Все сломалось, ожидаем пересборку 
+0a. Тут рабочая старая версия прототип: https://github.com/spat-ne-hochu/bemSlim
+1. Частично покрыто тестами
+2. В ожидании документации
 
 ### Наглядно:
 
-Главый шаблон `Orders` содержит заголовок в тремя элементами и повторяемый элемент
-`order` на который будет примиксова структура `Order`. На сам же шаблон `Orders` будет
-примешана структура `TableBeauty`, что сделает его таблицей с заголовком c правильной семантикой.
-Стоит заметить что `TableBeauty` похож на стандартную структуру и такие штуки будет позже помешены
- в STD namespace проекта. `String` это временный встроенный тип для вывода статичных строк, потом это 
- будет заменено на короткий синтаксис.
+##### Главный блок ORDERS
+Блок `Orders` содержит заголовок `caption` на который примешивается блок `OrdersCaption`, и повторяемый элемент
+`order` на который будет примиксован блок `Order`. На сам блок `Orders` примискован блок `TableBeauty`, что делает его таблицей с заголовком c правильной семантикой.
+`TableBeauty` похож на стандартную структуру и будет позже помешен в STD lib.
 
 ```
 Orders
-  mixin = 'TableBeauty'
- 
-     caption
-         id
-             String
-               value = 'номер'
- 
-         title
-             String
-               value = 'название'
- 
-         summary
-             String
-               value = 'сумма'
- 
-     order
-       each  = 'orders > order'
-       mixin = 'Order'
+  rule.mix = 'TableBeauty'
+
+    caption
+      rule.mix = 'OrdersCaption'
+
+    order
+      rule.each = 'order of orders'
+      rule.mix  = 'Order'
 ```
 
-Примесь таблицы `TableBeauty` задает семантику html и добавляет стили (пока инлайны),
-директива `merge` уточняет как именно накладывать примесь на узел, это похоже на css селекоторы позиции
-элемента. Можно знаметить что th станут все дочернии узлы первого узла tr. Конечно пока не обошлось без
-явного дублирования, но это будет допилено.
+##### Примесь TABLE_BEAUTY
+Примесь таблицы `TableBeauty` задает семантику html и добавляет стили (в выходном формате пока только инлайны),
+плавило `match` уточняет как именно накладываються дочерние узлы примеси на узлы целевого блока.
+th с жирным шрифтом и фоном станут все дочернии узлы только первого узла tr.
 
 ```
 TableBeauty
-  tag = 'table'
-  css = 'display:table'
+  html.tag    = 'table'
+  css.display = 'table'
 
     row
-      merge = '*'
-      tag   = 'tr'
-      css   = 'display:table-row'
+      rule.match  = '*'
+      html.tag    = 'tr'
+      css.display = 'table-row'
 
         cell
-          merge = '*'
-          tag   = 'td'
-          css   = 'display:table-cell'
+          rule.match  = '*'
+          html.tag    = 'td'
+          css.display = 'table-cell'
 
     head
-      merge = '0'
-      tag   = 'tr'
-      css   = 'display:table-row;background:#eee;font-weight:900'
+      rule.match      = '1'
+      css.background  = '#eee'
+      css.fontWeight  = '900'
 
         headCell
-          merge = '*'
-          tag   = 'th'
-          css   = 'display:table-cell'
+          rule.match  = '*'
+          html.tag    = 'th'
 ```
 
-И в окончании всего на элемент `order` накладывается структура `Order`, но здесь это больше
-похоже на обычный require/include. Структура `Order` отвечает за вывод одного заказа.
+##### Примесь TABLE_BEAUTY
+В этом случае примесь является обычный require/include. В будущем будет возможно указывать можно ли совмешать элемент `caption` c блоком `OrdersCaption` на одном узле. (А ещё возможно будет умная обработка css со сложением отступов)
+
+```
+OrdersCaption
+    id
+      rule.output = '"номер"'
+
+    title
+      rule.output = '"название"'
+
+    summary
+      rule.output = '"сумма"'
+```
+
+##### Примесь TABLE_BEAUTY
+И в окончании всего на элемент `order` накладывается структура `Order`. Структура `Order` отвечает за вывод одного заказа, таким образом реализуется разделение логики компонентов.
 
 ```
 Order
     id
-      var = 'order.id'
+      rule.output = 'order.id'
 
     title
-      var = 'order.title'
+      rule.output = 'order.title'
 
     summary
-      var = 'order.summary'
+      rule.output = 'order.summary'
 ```
 
-### Компилируем в php
-
+### Преобразуем все это в php:
 ```bash
-> node index
+> node index -php
 ```
 
-На выходе мы получим такой вот стремненьний код, со странными классами.
-Классы сейчас особо не нужны, главное что он хоть какие то выводит.
- 
+В результате получаем готовую view.php, которая с нетерпением ждет данные из контроллера!
 ```php
-<table class="orders+-table-beauty" styles="display:table">
-    <tr class="orders+-table-beauty__caption" styles="display:table-row;background:#eee;font-weight:900">
-        <th class="orders+-table-beauty__id" styles="display:table-cell">
-            номер        </th>
-        <th class="orders+-table-beauty__title" styles="display:table-cell">
-            название        </th>
-        <th class="orders+-table-beauty__summary" styles="display:table-cell">
-            сумма        </th>
+<table class="orders table-beauty" styles="display:table">
+  <tr class="orders__caption orders-caption table-beauty__row table-beauty__head" styles="display:table-row;background:#eee;font-weight:900">
+    <th class="orders-caption__id table-beauty__cell table-beauty__head-cell" styles="display:table-cell"></th>
+    <th class="orders-caption__title table-beauty__cell table-beauty__head-cell" styles="display:table-cell"></th>
+    <th class="orders-caption__summary table-beauty__cell table-beauty__head-cell" styles="display:table-cell"></th>
+  </tr>
+  <? foreach ($orders as $order) { ?>
+    <tr class="orders__order order table-beauty__row" styles="display:table-row">
+      <td class="order__id table-beauty__cell" styles="display:table-cell"></td>
+      <td class="order__title table-beauty__cell" styles="display:table-cell"></td>
+      <td class="order__summary table-beauty__cell" styles="display:table-cell"></td>
     </tr>
-    <? foreach ($orders as $order) { ?>
-    <tr class="orders+-table-beauty__order+-order" styles="display:table-row">
-        <td class="orders+-table-beauty__id" styles="display:table-cell"><?=$order->id;?></td>
-        <td class="orders+-table-beauty__title" styles="display:table-cell"><?=$order->title;?></td>
-        <td class="orders+-table-beauty__summary" styles="display:table-cell"><?=$order->summary;?></td>
-    </tr>
-    <? } ?>
+    <?}?>
 </table>
 ```
 
-### Следите за изменениями, спасибо за внимание!
+### Скоро ещё больше фич!
