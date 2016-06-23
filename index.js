@@ -10,7 +10,7 @@ run(argv._[0], argv.c);
 
 function run(blockName = 'Orders', compilerName = 'php') {
     try {
-        let block = blockProvider('Orders'),
+        let block = blockProvider(blockName),
             compiler = require(`./lib/${compilerName}-compiler`);
 
         //console.log(util.inspect(block, { showHidden: true, depth: null }));
