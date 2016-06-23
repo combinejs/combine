@@ -1,17 +1,43 @@
-const blockProvider = require('./providers/block'),
-      htmlCompile   = require('./compilers/html'),
-      phpCompile    = require('./compilers/php'),
-      processor     = require('./processors/index'),
+const blockProvider = require('@combinejs/blocks-provider'),
+      htmlCompile   = require('./lib/html-compiler'),
+      phpCompile    = require('./lib/php-compiler'),
       util          = require('util');
 
-let tree = blockProvider('Orders');
 
-//console.log(util.inspect(tree, { showHidden: true, depth: null }));
+var argv = require('minimist')(process.argv.slice(2));
 
-processor(tree);
+run(argv._[0], argv.c);
 
-//console.log(util.inspect(tree, { showHidden: true, depth: null }));
+function run(blockName = 'Orders', compilerName = 'php') {
+    try {
+        let block = blockProvider('Orders'),
+            compiler = require(`./lib/${compilerName}-compiler`);
 
-let compile = process.argv[2] === '-php' ? phpCompile : htmlCompile;
+        //console.log(util.inspect(block, { showHidden: true, depth: null }));
 
-console.log(compile(tree, true));
+        walk(block);
+
+        //console.log(util.inspect(block, { showHidden: true, depth: null }));
+
+        console.log(compiler(block, true));
+
+    } catch (e) {
+        console.log(e.message, e.stack);
+    }
+}
+
+function walk(node) {
+    for (let child of node.getChilds()) {
+        walk(child);
+    }
+
+    for (let directiveName of Object.keys(node.getDirectives())) {
+        let directive = node.getDirective(directiveName);
+
+        if (typeof directive.run === 'function') {
+            directive.run();
+        }
+    }
+}
+
+

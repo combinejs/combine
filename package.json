@@ -1,15 +1,11 @@
 {
   "name": "@combinejs/core",
-  "version": "0.1.1",
-  "description": "Проект в активной разработке базовых принципов",
+  "version": "0.2.0",
+  "description": "main combinejs module",
   "main": "index.js",
-  "dependencies": {
-    "case": "^1.4.1",
-    "pretty": "^1.0.0"
-  },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
@@ -21,7 +17,28 @@
     "url": "https://github.com/combinejs/combine/issues"
   },
   "homepage": "https://github.com/combinejs/combine#readme",
-  "keywords": [
-    "combinejs"
+  "dependencies": {
+    "@combinejs/directives-provider": "^0.10.0",
+    "@combinejs/each-directive": "^0.1.1",
+    "@combinejs/match-directive": "^0.1.2",
+    "@combinejs/mix-directive": "^0.1.1",
+    "@combinejs/node": "^0.1.2",
+    "@combinejs/output-directive": "^0.1.1",
+    "@combinejs/parser": "^0.2.0",
+    "minimist": "^1.2.0",
+    "pretty": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.5.3"
+  },
+  "files": [
+    "LICENSE",
+    "History.md",
+    "Readme.md",
+    "index.js",
+    "lib/"
   ]
 }

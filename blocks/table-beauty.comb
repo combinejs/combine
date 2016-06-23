@@ -2,6 +2,15 @@ TableBeauty
   html.tag    = 'table'
   css.display = 'table'
 
+    head
+      rule.match      = '1'
+      css.background  = '#eee'
+      css.fontWeight  = '900'
+
+        headCell
+          rule.match  = '*'
+          html.tag    = 'th'
+
     row
       rule.match  = '*'
       html.tag    = 'tr'
@@ -11,12 +20,3 @@ TableBeauty
           rule.match  = '*'
           html.tag    = 'td'
           css.display = 'table-cell'
-
-    head
-      rule.match      = '0'
-      css.background  = '#eee'
-      css.fontWeight  = '900'
-
-        headCell
-          rule.match  = '*'
-          html.tag    = 'th'
