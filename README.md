@@ -118,16 +118,22 @@ Order
 ```php
 <table class="orders table-beauty" styles="display:table">
   <tr class="orders__caption orders-caption table-beauty__row table-beauty__head" styles="display:table-row;background:#eee;font-weight:900">
-    <th class="orders-caption__id table-beauty__cell table-beauty__head-cell" styles="display:table-cell"></th>
-    <th class="orders-caption__title table-beauty__cell table-beauty__head-cell" styles="display:table-cell"></th>
-    <th class="orders-caption__summary table-beauty__cell table-beauty__head-cell" styles="display:table-cell"></th>
+    <th class="orders-caption__id table-beauty__cell table-beauty__head-cell" styles="display:table-cell">номер</th>
+    <div class="orders-caption__title">название</div>
+    <div class="orders-caption__summary">сумма</div>
   </tr>
   <? foreach ($orders as $order) { ?>
-    <tr class="orders__order order table-beauty__row" styles="display:table-row">
-      <td class="order__id table-beauty__cell" styles="display:table-cell"></td>
-      <td class="order__title table-beauty__cell" styles="display:table-cell"></td>
-      <td class="order__summary table-beauty__cell" styles="display:table-cell"></td>
-    </tr>
+    <div class="orders__order order">
+      <div class="order__id">
+        <?=$order->id;?>
+      </div>
+      <div class="order__title">
+        <?=$order->title;?>
+      </div>
+      <div class="order__summary">
+        <?=$order->summary;?>
+      </div>
+    </div>
     <?}?>
 </table>
 ```
