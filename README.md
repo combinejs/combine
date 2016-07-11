@@ -119,21 +119,21 @@ Order
 <table class="orders table-beauty" styles="display:table">
   <tr class="orders__caption orders-caption table-beauty__row table-beauty__head" styles="display:table-row;background:#eee;font-weight:900">
     <th class="orders-caption__id table-beauty__cell table-beauty__head-cell" styles="display:table-cell">номер</th>
-    <div class="orders-caption__title">название</div>
-    <div class="orders-caption__summary">сумма</div>
+    <td class="orders-caption__title">название</td>
+    <td class="orders-caption__summary">сумма</td>
   </tr>
   <? foreach ($orders as $order) { ?>
-    <div class="orders__order order">
-      <div class="order__id">
+    <tr class="orders__order order">
+      <td class="order__id">
         <?=$order->id;?>
-      </div>
-      <div class="order__title">
+      </td>
+      <td class="order__title">
         <?=$order->title;?>
-      </div>
-      <div class="order__summary">
+      </td>
+      <td class="order__summary">
         <?=$order->summary;?>
-      </div>
-    </div>
+      </td>
+    </tr>
     <?}?>
 </table>
 ```
